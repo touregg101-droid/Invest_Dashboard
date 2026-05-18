@@ -1,0 +1,9 @@
+{
+  "name": "Korea Stock Signal Dashboard",
+  "short_name": "Stock Signal",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6f8fa",
+  "theme_color": "#ffffff",
+  "icons": []
+}
