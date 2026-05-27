@@ -13,6 +13,13 @@ export function ResearchReportCard({ report }: { report: ResearchReport }) {
         </div>
         <span className="rounded-full bg-surface px-2 py-1 text-xs font-semibold">{report.targetChange}</span>
       </div>
+      {report.criteria?.length ? (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {report.criteria.map((criterion) => (
+            <span key={criterion} className="rounded-full border border-line px-2 py-1 text-[11px] text-muted">{criterion}</span>
+          ))}
+        </div>
+      ) : null}
       <div className="mt-3 rounded-md bg-surface p-3">
         <p className="caption">목표주가</p>
         <p className="text-xl font-bold">{report.targetPrice ? formatPrice(report.targetPrice) : "미제공"}</p>

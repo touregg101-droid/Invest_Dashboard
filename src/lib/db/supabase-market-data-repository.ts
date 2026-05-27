@@ -109,6 +109,8 @@ export class SupabaseMarketDataRepository implements MarketDataRepository {
       for (const report of bundle.reports) {
         await this.upsert("research_reports", {
           stock_id: stockRow.id,
+          category: report.category,
+          criteria_json: report.criteria,
           title: report.title,
           broker: report.broker,
           published_date: report.publishedDate,
@@ -117,7 +119,10 @@ export class SupabaseMarketDataRepository implements MarketDataRepository {
           summary: report.summary.join("\n"),
           positive_points: report.positivePoints,
           risk_points: report.riskPoints,
+          outlook: report.outlook,
+          target_change: report.targetChange,
           source_url: report.sourceUrl,
+          source: report.meta.source,
           fetched_at: report.meta.fetchedAt
         }, "source_url");
       }

@@ -58,6 +58,7 @@ SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 ```text
 .github/workflows/collect-krx-prices.yml
 .github/workflows/collect-yfinance-indicators.yml
+.github/workflows/collect-research-reports.yml
 ```
 
 스케줄:
@@ -75,12 +76,19 @@ GitHub Actions의 cron은 UTC 기준입니다. `15:05 UTC`는 한국시간 `00:0
 - 금 `GC=F`: 안전자산 선호도
 - 비트코인 `BTC-USD`: 디지털 자산 / 위험 자산 심리
 
+리서치 워크플로우는 `23:30 UTC`에 실행되며 한국시간 `08:30`입니다. 다음 기준 중 하나 이상을 충족하는 공개 리포트 링크만 저장합니다.
+
+- 매크로, 환율, 금리, 채권
+- 반도체 섹터
+- 삼성전자 또는 SK하이닉스
+
 로컬 수동 실행:
 
 ```bash
 python3 -m pip install -r requirements.txt
 python3 scripts/collect_pykrx_prices.py --dry-run
 python3 scripts/collect_yfinance_indicators.py --dry-run
+python3 scripts/collect_research_reports.py
 ```
 
 Supabase 환경변수가 있으면 실제 DB에 저장합니다.
@@ -95,6 +103,12 @@ python3 scripts/collect_pykrx_prices.py
 SUPABASE_URL=https://your-project.supabase.co \
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key \
 python3 scripts/collect_yfinance_indicators.py
+```
+
+```bash
+SUPABASE_URL=https://your-project.supabase.co \
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key \
+python3 scripts/collect_research_reports.py
 ```
 
 Vercel Cron은 GitHub Actions가 저장한 데이터를 앱/API가 다시 읽고 수집 로그와 보조 데이터를 갱신하도록 사용합니다.
@@ -157,6 +171,7 @@ curl https://your-domain.vercel.app/api/collect \
 - 가격 데이터: 삼성전자 `005930`, SK하이닉스 `000660`은 pykrx KRX 일봉
 - ETF 가격 데이터: TIGER 200 `102110.KS`는 Yahoo Finance chart API fallback
 - 글로벌 지표: 나스닥 `^IXIC`, S&P500 `^GSPC`, 금 `GC=F`, 비트코인 `BTC-USD`는 yfinance 전날 변동
+- 리서치 보고서: 매크로/반도체/삼성전자/SK하이닉스 조건 필터를 통과한 공개 링크와 짧은 요약
 - 공포-탐욕 합성 지수: `^KS11`, `^KQ11`, `KRW=X`
 
 mock fallback:

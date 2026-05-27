@@ -117,6 +117,8 @@ export interface EtfProfile {
 export interface ResearchReport {
   id: string;
   stockId: string;
+  category?: "macro" | "semiconductor" | "company" | "market";
+  criteria?: string[];
   title: string;
   broker: string;
   publishedDate: string;

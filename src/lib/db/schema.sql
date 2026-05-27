@@ -101,6 +101,8 @@ create unique index if not exists etf_holdings_stock_holding_date_key on etf_hol
 create table if not exists research_reports (
   id uuid primary key default gen_random_uuid(),
   stock_id uuid references stocks(id),
+  category text,
+  criteria_json jsonb,
   title text,
   broker text,
   published_date date,
@@ -109,7 +111,10 @@ create table if not exists research_reports (
   summary text,
   positive_points jsonb,
   risk_points jsonb,
+  outlook text,
+  target_change text,
   source_url text,
+  source text,
   fetched_at timestamptz
 );
 

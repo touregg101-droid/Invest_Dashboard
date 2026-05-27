@@ -104,6 +104,14 @@ Vercel Cron, GitHub Actions, Supabase Scheduled Functions 중 하나로 `/api/co
 - 금 `GC=F`: 안전자산 선호도
 - 비트코인 `BTC-USD`: 디지털 자산 / 위험 자산 심리
 
+리서치 보고서는 GitHub Actions가 매일 한국시간 08:30에 조건 필터를 통과한 공개 링크를 Supabase `research_reports`에 저장합니다. 워크플로우는 `.github/workflows/collect-research-reports.yml`에 있습니다.
+
+필터 기준:
+
+- 매크로, 환율, 금리, 채권
+- 반도체 섹터
+- 삼성전자 또는 SK하이닉스
+
 ## 데이터베이스
 
 요구 테이블 스키마는 `src/lib/db/schema.sql`에 포함되어 있습니다. `market_indicators_daily` 테이블도 글로벌 지표 저장용으로 포함되어 있습니다.
