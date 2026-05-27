@@ -74,7 +74,7 @@ COLLECT_SECRET=change-me
 
 ## Real Data 전환
 
-`USE_MOCK_DATA=false`로 전환하면 real adapter를 우선 호출합니다. 현재 실제 연동된 영역은 pykrx KRX 기반 삼성전자/SK하이닉스 일봉, Yahoo Finance chart API 기반 TIGER 200 가격 fallback, KOSPI/KOSDAQ/원달러 기반 합성 공포-탐욕 지수입니다. 수급, 커뮤니티, 리서치, 재무/ETF 세부 데이터는 약관과 공급자 확인 전이므로 mock fallback을 사용합니다.
+`USE_MOCK_DATA=false`로 전환하면 real adapter를 우선 호출합니다. 현재 실제 연동된 영역은 pykrx KRX 기반 삼성전자/SK하이닉스 일봉, yfinance 기반 글로벌 지표, Yahoo Finance chart API 기반 TIGER 200 가격 fallback, KOSPI/KOSDAQ/원달러 기반 합성 공포-탐욕 지수입니다. 수급, 커뮤니티, 리서치, 재무/ETF 세부 데이터는 약관과 공급자 확인 전이므로 mock fallback을 사용합니다.
 
 실연동 시 각 adapter 파일에 합법적 API 또는 계약된 데이터 공급자를 연결하세요.
 
@@ -126,9 +126,16 @@ Vercel Cron, GitHub Actions, Supabase Scheduled Functions 중 하나로 `/api/co
 
 삼성전자/SK하이닉스 일봉은 GitHub Actions가 매일 한국시간 00:05에 `pykrx`를 설치해 Supabase에 저장합니다. 워크플로우는 `.github/workflows/collect-krx-prices.yml`에 있습니다.
 
+글로벌 주요 지표는 GitHub Actions가 매일 한국시간 08:00에 `yfinance`로 전날 변동을 수집해 Supabase `market_indicators_daily`에 저장합니다. 워크플로우는 `.github/workflows/collect-yfinance-indicators.yml`에 있습니다.
+
+- 나스닥 종합 `^IXIC`: 미국 기술주 흐름
+- S&P500 `^GSPC`: 미국 전체 시장 방향
+- 금 `GC=F`: 안전자산 선호도
+- 비트코인 `BTC-USD`: 디지털 자산 / 위험 자산 심리
+
 ## 데이터베이스
 
-요구 테이블 스키마는 `src/lib/db/schema.sql`에 포함되어 있습니다. `trade_journals` 테이블도 확장 버전용으로 추가되어 있습니다.
+요구 테이블 스키마는 `src/lib/db/schema.sql`에 포함되어 있습니다. `trade_journals`, `market_indicators_daily` 테이블도 확장 버전용으로 추가되어 있습니다.
 
 ## AI 요약 구조
 

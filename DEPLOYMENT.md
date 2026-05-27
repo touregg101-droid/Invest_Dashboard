@@ -5,7 +5,7 @@
 - 웹 게시: Vercel
 - DB: Supabase Postgres
 - 자동 수집: Vercel Cron -> `/api/collect`
-- 실제 데이터: GitHub Actions + pykrx KRX 일봉, Yahoo Finance 시장지표 adapter + mock fallback
+- 실제 데이터: GitHub Actions + pykrx KRX 일봉, yfinance 글로벌 지표, Yahoo Finance 시장지표 adapter + mock fallback
 - DB 저장: Supabase REST API
 
 ## 1. Supabase DB 만들기
@@ -38,7 +38,7 @@ OPENAI_API_KEY=
 
 ## 3. 자동 수집
 
-가격 데이터는 GitHub Actions가 매일 한국시간 자정 직후 `pykrx`를 설치하고 KRX 일봉을 Supabase에 저장합니다.
+가격 데이터는 GitHub Actions가 매일 한국시간 자정 직후 `pykrx`를 설치하고 KRX 일봉을 Supabase에 저장합니다. 글로벌 주요 지표는 매일 한국시간 08:00에 `yfinance`로 전날 변동을 저장합니다.
 
 GitHub 저장소에서 아래 Secrets를 추가하세요.
 
@@ -57,6 +57,7 @@ SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 
 ```text
 .github/workflows/collect-krx-prices.yml
+.github/workflows/collect-yfinance-indicators.yml
 ```
 
 스케줄:
@@ -67,11 +68,19 @@ cron: "5 15 * * *"
 
 GitHub Actions의 cron은 UTC 기준입니다. `15:05 UTC`는 한국시간 `00:05`입니다.
 
+글로벌 지표 워크플로우는 `23:00 UTC`에 실행되며 한국시간 `08:00`입니다. 수집 대상과 해석 이유는 다음과 같습니다.
+
+- 나스닥 종합 `^IXIC`: 미국 기술주 흐름
+- S&P500 `^GSPC`: 미국 전체 시장 방향
+- 금 `GC=F`: 안전자산 선호도
+- 비트코인 `BTC-USD`: 디지털 자산 / 위험 자산 심리
+
 로컬 수동 실행:
 
 ```bash
 python3 -m pip install -r requirements.txt
 python3 scripts/collect_pykrx_prices.py --dry-run
+python3 scripts/collect_yfinance_indicators.py --dry-run
 ```
 
 Supabase 환경변수가 있으면 실제 DB에 저장합니다.
@@ -80,6 +89,12 @@ Supabase 환경변수가 있으면 실제 DB에 저장합니다.
 SUPABASE_URL=https://your-project.supabase.co \
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key \
 python3 scripts/collect_pykrx_prices.py
+```
+
+```bash
+SUPABASE_URL=https://your-project.supabase.co \
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key \
+python3 scripts/collect_yfinance_indicators.py
 ```
 
 Vercel Cron은 GitHub Actions가 저장한 데이터를 앱/API가 다시 읽고 수집 로그와 보조 데이터를 갱신하도록 사용합니다.
@@ -141,6 +156,7 @@ curl https://your-domain.vercel.app/api/collect \
 
 - 가격 데이터: 삼성전자 `005930`, SK하이닉스 `000660`은 pykrx KRX 일봉
 - ETF 가격 데이터: TIGER 200 `102110.KS`는 Yahoo Finance chart API fallback
+- 글로벌 지표: 나스닥 `^IXIC`, S&P500 `^GSPC`, 금 `GC=F`, 비트코인 `BTC-USD`는 yfinance 전날 변동
 - 공포-탐욕 합성 지수: `^KS11`, `^KQ11`, `KRW=X`
 
 mock fallback:

@@ -124,6 +124,26 @@ create table if not exists collection_logs (
   finished_at timestamptz
 );
 
+create table if not exists market_indicators_daily (
+  id uuid primary key default gen_random_uuid(),
+  ticker text not null,
+  name text not null,
+  reason text not null,
+  date date not null,
+  open numeric,
+  high numeric,
+  low numeric,
+  close numeric,
+  previous_close numeric,
+  change numeric,
+  change_rate numeric,
+  volume numeric,
+  source text,
+  fetched_at timestamptz
+);
+
+create unique index if not exists market_indicators_daily_ticker_date_key on market_indicators_daily(ticker, date);
+
 create table if not exists trade_journals (
   id uuid primary key default gen_random_uuid(),
   user_id uuid,

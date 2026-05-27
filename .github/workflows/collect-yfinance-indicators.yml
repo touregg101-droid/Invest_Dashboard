@@ -1,0 +1,29 @@
+name: Collect Yahoo Finance Indicators
+
+on:
+  schedule:
+    # Korea 08:00 is 23:00 UTC on the previous day.
+    - cron: "0 23 * * *"
+  workflow_dispatch:
+
+jobs:
+  collect-yfinance-indicators:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip && pip install -r requirements.txt
+
+      - name: Collect and save Yahoo Finance indicators
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: python scripts/collect_yfinance_indicators.py
