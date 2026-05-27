@@ -6,7 +6,7 @@
     <title>한국 주식 분석 대시보드</title>
     <style>
       *{box-sizing:border-box} body{margin:0;background:#f6f8fa;color:#17202a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-      main{max-width:430px;margin:0 auto;padding:18px 16px 84px}.eyebrow{font-size:12px;font-weight:800;color:#667085}h1{margin:4px 0 8px;font-size:26px}h2{font-size:15px;margin:0 0 10px}.muted{color:#667085}.card{background:#fff;border:1px solid #e5e7eb;border-radius:8px;box-shadow:0 8px 24px rgba(15,23,42,.06);padding:16px;margin:12px 0}.warn{display:flex;gap:8px;background:#fffbeb;border-color:#fde68a;color:#92400e}.row{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{background:#f6f8fa;border-radius:8px;padding:10px}.label{font-size:12px;color:#667085}.value{font-size:22px;font-weight:800}.up{color:#d92d20}.down{color:#1570ef}.good{color:#039855}.pill{display:inline-block;border:1px solid #e5e7eb;border-radius:999px;padding:5px 8px;font-size:12px;background:#f6f8fa;margin:3px}.bar{height:12px;border-radius:99px;overflow:hidden;display:flex;background:#eee}.pos{background:#039855}.neu{background:#98a2b3}.neg{background:#d92d20}.chart{height:72px;width:100%;margin:12px 0}.nav{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);border-top:1px solid #e5e7eb}.nav div{max-width:430px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);padding:8px}.nav a{text-align:center;text-decoration:none;color:#667085;font-size:12px;font-weight:700;padding:9px 0}.btn{border:0;background:#17202a;color:#fff;border-radius:8px;padding:10px 12px;font-weight:800}.small{font-size:12px;line-height:1.55}.list{display:grid;gap:8px}.item{background:#f6f8fa;border-radius:8px;padding:10px}.gauge{position:relative;margin:8px auto 0;width:220px;height:112px;overflow:hidden}.arc{position:absolute;inset:0 0 auto 0;height:220px;border-radius:999px;background:conic-gradient(from 270deg,#1570ef 0deg,#039855 85deg,#dc6803 135deg,#d92d20 180deg,transparent 180deg)}.inner{position:absolute;left:22px;right:22px;top:22px;height:176px;border-radius:999px;background:white}.needle{position:absolute;left:110px;top:92px;width:78px;height:4px;background:#17202a;border-radius:8px;transform-origin:left;transform:rotate(14deg)}.score{position:absolute;left:0;right:0;top:42px;text-align:center}.score b{font-size:40px}
+      main{max-width:430px;margin:0 auto;padding:18px 16px 84px}.eyebrow{font-size:12px;font-weight:800;color:#667085}h1{margin:4px 0 8px;font-size:26px}h2{font-size:15px;margin:0 0 10px}.muted{color:#667085}.card{background:#fff;border:1px solid #e5e7eb;border-radius:8px;box-shadow:0 8px 24px rgba(15,23,42,.06);padding:16px;margin:12px 0}.warn{display:flex;gap:8px;background:#fffbeb;border-color:#fde68a;color:#92400e}.row{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{background:#f6f8fa;border-radius:8px;padding:10px}.label{font-size:12px;color:#667085}.value{font-size:22px;font-weight:800}.up{color:#d92d20}.down{color:#1570ef}.good{color:#039855}.pill{display:inline-block;border:1px solid #e5e7eb;border-radius:999px;padding:5px 8px;font-size:12px;background:#f6f8fa;margin:3px}.bar{height:12px;border-radius:99px;overflow:hidden;display:flex;background:#eee}.pos{background:#039855}.neu{background:#98a2b3}.neg{background:#d92d20}.chart{height:72px;width:100%;margin:12px 0}.nav{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);border-top:1px solid #e5e7eb}.nav div{max-width:430px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);padding:8px}.nav a{text-align:center;text-decoration:none;color:#667085;font-size:12px;font-weight:700;padding:9px 0}.btn{border:0;background:#17202a;color:#fff;border-radius:8px;padding:10px 12px;font-weight:800}.small{font-size:12px;line-height:1.55}.list{display:grid;gap:8px}.item{background:#f6f8fa;border-radius:8px;padding:10px}.gauge{position:relative;margin:8px auto 0;width:240px;height:132px}.gauge svg{width:100%;height:100%;display:block}.score{position:absolute;left:0;right:0;top:48px;text-align:center;pointer-events:none}.score b{font-size:40px;line-height:1}
     </style>
   </head>
   <body>
@@ -18,7 +18,22 @@
 
       <section class="card" id="home">
         <div class="row"><h2>오늘의 한국 시장 공포-탐욕</h2><span class="pill">Mock · 05.14 15:45</span></div>
-        <div class="gauge"><div class="arc"></div><div class="inner"></div><div class="needle"></div><div class="score"><b>58</b><br />중립</div></div>
+        <div class="gauge" data-gauge-score="58" aria-label="공포-탐욕 지수 58점">
+          <svg viewBox="0 0 224 132" role="img">
+            <defs>
+              <linearGradient id="fearGreedGradientStatic" x1="24" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#1a73e8" />
+                <stop offset="45%" stop-color="#0f9d58" />
+                <stop offset="75%" stop-color="#f29900" />
+                <stop offset="100%" stop-color="#d93025" />
+              </linearGradient>
+            </defs>
+            <path d="M 24 112 A 88 88 0 0 1 200 112" fill="none" stroke="url(#fearGreedGradientStatic)" stroke-width="26" stroke-linecap="butt"></path>
+            <line class="gauge-needle" x1="112" y1="112" x2="112" y2="40" stroke="#17202a" stroke-width="5" stroke-linecap="round"></line>
+            <circle cx="112" cy="112" r="5" fill="#17202a"></circle>
+          </svg>
+          <div class="score"><b>58</b><br />중립</div>
+        </div>
         <div class="item small"><b>전일 대비 +4pt</b><br />대형 반도체 수급 회복이 점수를 끌어올렸습니다.</div>
         <p class="small muted">주요 원인: KOSPI 1개월 수익률 개선 · 외국인 순매수 전환 · 변동성 지표 중립권</p>
       </section>
@@ -81,5 +96,19 @@
       <footer class="small muted">본 서비스는 투자 판단을 보조하기 위한 정보 대시보드입니다. 매수·매도 추천을 제공하지 않으며, 모든 투자 판단과 책임은 사용자 본인에게 있습니다. 데이터는 지연되거나 오류가 있을 수 있습니다.</footer>
     </main>
     <nav class="nav"><div><a href="#home">홈</a><a href="#stocks">종목</a><a href="#flows">수급</a><a href="#sentiment">심리</a><a href="#research">리서치</a></div></nav>
+    <script>
+      document.querySelectorAll("[data-gauge-score]").forEach((gauge) => {
+        const score = Math.max(0, Math.min(100, Number(gauge.dataset.gaugeScore || 0)));
+        const centerX = 112;
+        const centerY = 112;
+        const needleLength = 72;
+        const angleRad = ((180 - score * 1.8) * Math.PI) / 180;
+        const needle = gauge.querySelector(".gauge-needle");
+        if (needle) {
+          needle.setAttribute("x2", String(centerX + Math.cos(angleRad) * needleLength));
+          needle.setAttribute("y2", String(centerY - Math.sin(angleRad) * needleLength));
+        }
+      });
+    </script>
   </body>
 </html>
