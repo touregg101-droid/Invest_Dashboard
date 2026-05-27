@@ -11,13 +11,13 @@
   </head>
   <body>
     <main>
-      <div class="eyebrow">KOREA STOCK SIGNAL · MOCK FALLBACK</div>
+      <div class="eyebrow">KOREA STOCK SIGNAL · KRX SNAPSHOT</div>
       <h1>3개 종목 한눈 비교</h1>
       <p class="muted">TIGER 200, 삼성전자, SK하이닉스 고정 대시보드</p>
       <section class="card warn small">⚠️ 본 서비스는 투자 판단 참고용 정보 대시보드이며 매수·매도 추천을 제공하지 않습니다.</section>
 
       <section class="card" id="home">
-        <div class="row"><h2>오늘의 한국 시장 공포-탐욕</h2><span class="pill">Mock · 05.14 15:45</span></div>
+        <div class="row"><h2>오늘의 한국 시장 공포-탐욕</h2><span class="pill" data-market-updated>KRX · 2026.05.27 15:30</span></div>
         <div class="gauge" data-gauge-score="58" aria-label="공포-탐욕 지수 58점">
           <svg viewBox="0 0 224 132" role="img">
             <defs>
@@ -40,23 +40,23 @@
 
       <section id="stocks">
         <h2>종목 요약</h2>
-        <article class="card">
+        <article class="card" data-static-ticker="102110">
           <div class="row"><h2>TIGER 200 <span class="pill">102110</span></h2><span class="pill">ETF</span></div>
-          <div class="grid"><div><div class="label">현재가</div><div class="value">38,210원</div></div><div><div class="label">전일 대비</div><div class="value up">+0.42%</div></div></div>
-          <svg class="chart" viewBox="0 0 340 72"><polyline fill="none" stroke="#1570ef" stroke-width="4" points="0,54 45,48 90,52 135,40 180,36 225,30 270,25 340,20"/></svg>
-          <p class="small">기관과 외국인의 ETF 순매수가 이어졌습니다. 커뮤니티 감정: 긍정 44%</p>
+          <div class="grid"><div><div class="label">현재가</div><div class="value" data-current-price>130,560원</div></div><div><div class="label">전일 대비</div><div class="value up" data-change-rate>+2.86%</div></div></div>
+          <svg class="chart" viewBox="0 0 340 72"><polyline fill="none" stroke="#1570ef" stroke-width="4" points="0,60 45,58 90,54 135,48 180,42 225,38 270,31 340,18"/></svg>
+          <p class="small" data-snapshot-note>KRX 2026-05-27 종가 기준 · 거래량 4,383,589주 · 커뮤니티 감정: 긍정 44%</p>
         </article>
-        <article class="card">
+        <article class="card" data-static-ticker="005930">
           <div class="row"><h2>삼성전자 <span class="pill">005930</span></h2><span class="pill">KOSPI</span></div>
-          <div class="grid"><div><div class="label">현재가</div><div class="value">81,200원</div></div><div><div class="label">전일 대비</div><div class="value up">+1.25%</div></div></div>
-          <svg class="chart" viewBox="0 0 340 72"><polyline fill="none" stroke="#1570ef" stroke-width="4" points="0,58 45,55 90,45 135,44 180,34 225,31 270,22 340,18"/></svg>
-          <p class="small">최근 5거래일 기준 외국인 순매수가 확대되었습니다. 감정: 긍정 62%</p>
+          <div class="grid"><div><div class="label">현재가</div><div class="value" data-current-price>307,000원</div></div><div><div class="label">전일 대비</div><div class="value up" data-change-rate>+2.68%</div></div></div>
+          <svg class="chart" viewBox="0 0 340 72"><polyline fill="none" stroke="#1570ef" stroke-width="4" points="0,58 45,57 90,55 135,50 180,42 225,36 270,28 340,18"/></svg>
+          <p class="small" data-snapshot-note>KRX 2026-05-27 종가 기준 · 거래량 33,447,443주 · 감정: 긍정 62%</p>
         </article>
-        <article class="card">
+        <article class="card" data-static-ticker="000660">
           <div class="row"><h2>SK하이닉스 <span class="pill">000660</span></h2><span class="pill">KOSPI</span></div>
-          <div class="grid"><div><div class="label">현재가</div><div class="value">214,500원</div></div><div><div class="label">전일 대비</div><div class="value down">-0.74%</div></div></div>
-          <svg class="chart" viewBox="0 0 340 72"><polyline fill="none" stroke="#1570ef" stroke-width="4" points="0,60 45,42 90,34 135,28 180,20 225,22 270,16 340,24"/></svg>
-          <p class="small">개인 매수세가 강하지만 주가는 단기 약세입니다. 감정: 긍정 68%</p>
+          <div class="grid"><div><div class="label">현재가</div><div class="value" data-current-price>2,243,000원</div></div><div><div class="label">전일 대비</div><div class="value up" data-change-rate>+9.31%</div></div></div>
+          <svg class="chart" viewBox="0 0 340 72"><polyline fill="none" stroke="#1570ef" stroke-width="4" points="0,62 45,60 90,56 135,51 180,44 225,37 270,28 340,12"/></svg>
+          <p class="small" data-snapshot-note>KRX 2026-05-27 종가 기준 · 거래량 7,248,371주 · 감정: 긍정 68%</p>
         </article>
       </section>
 
@@ -90,7 +90,7 @@
 
       <section class="card" id="admin">
         <div class="row"><h2>관리자 수집 상태</h2><button class="btn" onclick="alert('정적 fallback 서버입니다. Next API는 Node 설치 후 사용 가능합니다.')">수집 실행</button></div>
-        <p class="small muted">실데이터 adapter 미설정으로 mock snapshot 사용 중입니다. Node 설치 후 Next 앱에서는 /api/collect가 동작합니다.</p>
+        <p class="small muted">GitHub Pages 정적 화면은 KRX 스냅샷을 표시합니다. Next 앱에서는 /api/collect와 Supabase 저장 구조가 동작합니다.</p>
       </section>
 
       <footer class="small muted">본 서비스는 투자 판단을 보조하기 위한 정보 대시보드입니다. 매수·매도 추천을 제공하지 않으며, 모든 투자 판단과 책임은 사용자 본인에게 있습니다. 데이터는 지연되거나 오류가 있을 수 있습니다.</footer>
@@ -109,6 +109,31 @@
           needle.setAttribute("y2", String(centerY - Math.sin(angleRad) * needleLength));
         }
       });
+
+      fetch("./static-market-snapshot.json", { cache: "no-store" })
+        .then((response) => response.ok ? response.json() : null)
+        .then((snapshot) => {
+          if (!snapshot || !snapshot.stocks) return;
+          const updated = document.querySelector("[data-market-updated]");
+          if (updated) updated.textContent = `KRX · ${snapshot.updatedLabel}`;
+
+          document.querySelectorAll("[data-static-ticker]").forEach((card) => {
+            const ticker = card.getAttribute("data-static-ticker");
+            const item = snapshot.stocks[ticker];
+            if (!item) return;
+            const price = card.querySelector("[data-current-price]");
+            const change = card.querySelector("[data-change-rate]");
+            const note = card.querySelector("[data-snapshot-note]");
+            if (price) price.textContent = `${Number(item.close).toLocaleString("ko-KR")}원`;
+            if (change) {
+              change.textContent = `${item.changeRate >= 0 ? "+" : ""}${Number(item.changeRate).toFixed(2)}%`;
+              change.classList.toggle("up", item.changeRate >= 0);
+              change.classList.toggle("down", item.changeRate < 0);
+            }
+            if (note) note.textContent = `KRX ${item.date} 종가 기준 · 거래량 ${Number(item.volume).toLocaleString("ko-KR")}주 · ${item.note}`;
+          });
+        })
+        .catch(() => {});
     </script>
   </body>
 </html>

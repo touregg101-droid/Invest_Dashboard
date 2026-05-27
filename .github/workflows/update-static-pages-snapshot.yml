@@ -1,0 +1,41 @@
+name: Update GitHub Pages Static Snapshot
+
+on:
+  schedule:
+    # 00:20 KST, after KRX daily data is expected to be available.
+    - cron: "20 15 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-static-pages-snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip && pip install -r requirements.txt
+
+      - name: Update static market snapshot
+        run: python scripts/update_static_market_snapshot.py
+
+      - name: Commit snapshot if changed
+        run: |
+          if git diff --quiet static-market-snapshot.json; then
+            echo "No static snapshot changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add static-market-snapshot.json
+          git commit -m "Update static market snapshot"
+          git push

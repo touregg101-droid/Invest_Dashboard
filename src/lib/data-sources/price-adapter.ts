@@ -112,7 +112,7 @@ export class RealPriceAdapter implements PriceDataAdapter {
 }
 
 async function fetchStoredKrxSnapshot(ticker: string, fallback: PriceSnapshot): Promise<PriceSnapshot | null> {
-  if (!["005930", "000660"].includes(ticker)) return null;
+  if (!["102110", "005930", "000660"].includes(ticker)) return null;
   const supabaseUrl = process.env.SUPABASE_URL;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!supabaseUrl || !serviceRoleKey) return null;

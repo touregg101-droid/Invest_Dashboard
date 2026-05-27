@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Collect Samsung Electronics and SK Hynix daily OHLCV from KRX via pykrx.
+"""Collect fixed dashboard tickers' daily OHLCV from KRX via pykrx.
 
 The script is designed for GitHub Actions and local manual runs.
 It upserts rows into Supabase REST API when SUPABASE_URL and
@@ -33,6 +33,7 @@ class StockConfig:
 
 
 TARGET_STOCKS = [
+    StockConfig(stock_id="tiger200", ticker="102110", name="TIGER 200", type="ETF"),
     StockConfig(stock_id="samsung", ticker="005930", name="삼성전자"),
     StockConfig(stock_id="skhynix", ticker="000660", name="SK하이닉스"),
 ]
@@ -184,7 +185,7 @@ def collect_and_save(client: Optional[SupabaseRestClient], start: str, end: str,
             {
                 "job_name": "pykrx-price-daily",
                 "status": "success",
-                "message": f"pykrx로 삼성전자/SK하이닉스 일봉 {result['saved_rows']}개 저장",
+                "message": f"pykrx로 고정 3개 종목 일봉 {result['saved_rows']}개 저장",
                 "started_at": fetched_at,
                 "finished_at": dt.datetime.now(KST).isoformat(),
             },
