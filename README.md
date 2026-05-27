@@ -12,7 +12,6 @@ TIGER 200(102110), 삼성전자(005930), SK하이닉스(000660)를 고정 비교
 - Recharts
 - lucide-react
 - Adapter + mock fallback data layer
-- localStorage 기반 개인 매매일지
 - PWA manifest 기본 구조
 
 ## 실행 방법
@@ -47,30 +46,6 @@ COLLECT_SECRET=change-me
 - TIGER 200 ETF 구성종목
 - 증권사 리서치 보고서 샘플
 - 관리자 수집 로그
-- 개인 매매일지 작성, 복기, CSV/JSON 내보내기
-
-## 개인 매매일지
-
-하단 탭의 `일지` 또는 `/journal`에서 사용할 수 있습니다.
-
-주요 기능:
-
-- TIGER 200, 삼성전자, SK하이닉스별 판단 기록
-- 판단 유형: 보유, 구매, 판매
-- 판단 이유 최소 30자 검증
-- 선택 입력: 매수가, 매도가, 수량, 목표가, 손절가, 투자 기간, 참고 근거, 감정 상태
-- 작성 시점 snapshot 저장: 가격, 5일 수급, 감정 비율, 공포-탐욕 점수, 최신 리서치 요약
-- 복기 입력: 실제 결과, 복기 메모, 배운 점, 다음 개선점, 결과 가격, 수익률, 보유 기간, 판단 점수
-- 목록 필터: 종목, 판단 유형, 기간, 검색, 작성일/판단일 정렬
-- CSV/JSON 내보내기
-
-현재 1차 버전은 로그인 없이 브라우저 `localStorage`에 저장합니다. 기기나 브라우저를 바꾸면 자동 동기화되지 않으므로 내보내기 기능으로 백업할 수 있습니다.
-
-저장소는 repository 패턴으로 추상화되어 있습니다.
-
-- `src/lib/journal/journal-repository.ts`
-- `src/lib/journal/local-journal-repository.ts`
-- 향후 Supabase Auth + RLS 기반 repository로 교체 가능
 
 ## Real Data 전환
 
@@ -103,10 +78,6 @@ API route:
 - `GET /api/collect`
 - `POST /api/collect`
 - `POST /api/summarize`
-- `/journal`: 개인 매매일지
-- `/journal/new`: 새 매매일지 작성
-- `/journal/[id]`: 매매일지 상세 및 복기
-- `/journal/[id]/edit`: 매매일지 수정
 
 관리자 화면:
 
@@ -135,7 +106,7 @@ Vercel Cron, GitHub Actions, Supabase Scheduled Functions 중 하나로 `/api/co
 
 ## 데이터베이스
 
-요구 테이블 스키마는 `src/lib/db/schema.sql`에 포함되어 있습니다. `trade_journals`, `market_indicators_daily` 테이블도 확장 버전용으로 추가되어 있습니다.
+요구 테이블 스키마는 `src/lib/db/schema.sql`에 포함되어 있습니다. `market_indicators_daily` 테이블도 글로벌 지표 저장용으로 포함되어 있습니다.
 
 ## AI 요약 구조
 
@@ -143,8 +114,6 @@ AI 기능은 다음 파일에 추상화되어 있습니다.
 
 - `src/lib/ai/summarize-report.ts`
 - `src/lib/ai/analyze-sentiment.ts`
-- `src/lib/ai/summarize-journal.ts`
-- `src/lib/ai/summarize-review.ts`
 
 프롬프트 원칙:
 
@@ -174,6 +143,4 @@ Vercel 기준:
 - 커뮤니티 데이터 수집 약관 검토 후 API 기반 수집
 - OpenAI API를 이용한 감정/리서치 요약 실연동
 - 관리자 화면 인증과 수집 실패 재시도 UI
-- Supabase Auth를 붙인 사용자별 매매일지 동기화
-- 매매일지 가져오기 기능
 - Lighthouse/PWA 아이콘 세트 추가

@@ -176,7 +176,4 @@ mock fallback:
 
 ```text
 https://your-domain.vercel.app
-https://your-domain.vercel.app/journal
 ```
-
-매매일지는 현재 브라우저 `localStorage`에 저장됩니다. 로그인 없이 바로 쓰는 1차 버전이며, 기기 간 동기화가 필요하면 Supabase Auth + `trade_journals` 테이블로 확장하면 됩니다.

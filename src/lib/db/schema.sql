@@ -143,32 +143,3 @@ create table if not exists market_indicators_daily (
 );
 
 create unique index if not exists market_indicators_daily_ticker_date_key on market_indicators_daily(ticker, date);
-
-create table if not exists trade_journals (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid,
-  stock_id uuid references stocks(id),
-  action_type text not null check (action_type in ('hold', 'buy', 'sell')),
-  decision_date date not null,
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now(),
-  decision_reason text not null,
-  buy_price numeric,
-  sell_price numeric,
-  quantity numeric,
-  target_price numeric,
-  stop_loss_price numeric,
-  investment_horizon text check (investment_horizon in ('short', 'medium', 'long')),
-  evidence_tags jsonb,
-  emotion_state text,
-  review_status text not null default 'not_reviewed' check (review_status in ('not_reviewed', 'reviewed')),
-  review_result text check (review_result in ('as_expected', 'different', 'pending')),
-  review_memo text,
-  lessons_learned text,
-  improvement_next_time text,
-  result_price numeric,
-  result_return_rate numeric,
-  holding_period_days integer,
-  decision_score integer check (decision_score between 1 and 5),
-  snapshot_json jsonb
-);
