@@ -5,7 +5,7 @@
 - 웹 게시: Vercel
 - DB: Supabase Postgres
 - 자동 수집: Vercel Cron -> `/api/collect`
-- 실제 데이터: Yahoo Finance 가격/시장지표 adapter + mock fallback
+- 실제 데이터: GitHub Actions + pykrx KRX 일봉, Yahoo Finance 시장지표 adapter + mock fallback
 - DB 저장: Supabase REST API
 
 ## 1. Supabase DB 만들기
@@ -38,20 +38,64 @@ OPENAI_API_KEY=
 
 ## 3. 자동 수집
 
-`vercel.json`에 Cron 예시가 들어 있습니다.
+가격 데이터는 GitHub Actions가 매일 한국시간 자정 직후 `pykrx`를 설치하고 KRX 일봉을 Supabase에 저장합니다.
+
+GitHub 저장소에서 아래 Secrets를 추가하세요.
+
+```text
+Repository → Settings → Secrets and variables → Actions → New repository secret
+```
+
+필수 Secrets:
+
+```bash
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+```
+
+워크플로우:
+
+```text
+.github/workflows/collect-krx-prices.yml
+```
+
+스케줄:
+
+```yaml
+cron: "5 15 * * *"
+```
+
+GitHub Actions의 cron은 UTC 기준입니다. `15:05 UTC`는 한국시간 `00:05`입니다.
+
+로컬 수동 실행:
+
+```bash
+python3 -m pip install -r requirements.txt
+python3 scripts/collect_pykrx_prices.py --dry-run
+```
+
+Supabase 환경변수가 있으면 실제 DB에 저장합니다.
+
+```bash
+SUPABASE_URL=https://your-project.supabase.co \
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key \
+python3 scripts/collect_pykrx_prices.py
+```
+
+Vercel Cron은 GitHub Actions가 저장한 데이터를 앱/API가 다시 읽고 수집 로그와 보조 데이터를 갱신하도록 사용합니다.
 
 ```json
 {
   "crons": [
     {
       "path": "/api/collect",
-      "schedule": "30 7 * * 1-5"
+      "schedule": "15 15 * * *"
     }
   ]
 }
 ```
 
-Vercel Cron의 시간대는 UTC입니다. `30 7 * * 1-5`는 한국시간 16:30 평일 실행입니다.
+Vercel Cron의 시간대는 UTC입니다. `15 15 * * *`는 한국시간 00:15 매일 실행입니다.
 
 Vercel 공식 문서 기준으로 `CRON_SECRET` 환경변수를 설정하면 Cron 요청에 `Authorization: Bearer <CRON_SECRET>` 헤더가 자동 포함됩니다. `/api/collect`는 production에서 이 헤더를 확인합니다.
 
@@ -95,7 +139,8 @@ curl https://your-domain.vercel.app/api/collect \
 
 실제 연동:
 
-- 가격 데이터: `102110.KS`, `005930.KS`, `000660.KS`
+- 가격 데이터: 삼성전자 `005930`, SK하이닉스 `000660`은 pykrx KRX 일봉
+- ETF 가격 데이터: TIGER 200 `102110.KS`는 Yahoo Finance chart API fallback
 - 공포-탐욕 합성 지수: `^KS11`, `^KQ11`, `KRW=X`
 
 mock fallback:

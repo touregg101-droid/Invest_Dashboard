@@ -74,11 +74,11 @@ COLLECT_SECRET=change-me
 
 ## Real Data 전환
 
-`USE_MOCK_DATA=false`로 전환하면 real adapter를 우선 호출합니다. 현재 실제 연동된 영역은 Yahoo Finance chart API 기반 가격 데이터와 KOSPI/KOSDAQ/원달러 기반 합성 공포-탐욕 지수입니다. 수급, 커뮤니티, 리서치, 재무/ETF 세부 데이터는 약관과 공급자 확인 전이므로 mock fallback을 사용합니다.
+`USE_MOCK_DATA=false`로 전환하면 real adapter를 우선 호출합니다. 현재 실제 연동된 영역은 pykrx KRX 기반 삼성전자/SK하이닉스 일봉, Yahoo Finance chart API 기반 TIGER 200 가격 fallback, KOSPI/KOSDAQ/원달러 기반 합성 공포-탐욕 지수입니다. 수급, 커뮤니티, 리서치, 재무/ETF 세부 데이터는 약관과 공급자 확인 전이므로 mock fallback을 사용합니다.
 
 실연동 시 각 adapter 파일에 합법적 API 또는 계약된 데이터 공급자를 연결하세요.
 
-- `src/lib/data-sources/price-adapter.ts` 실제 연동: `102110.KS`, `005930.KS`, `000660.KS`
+- `src/lib/data-sources/price-adapter.ts` 실제 연동: Supabase `price_daily`의 pykrx KRX 일봉 우선 사용, `102110.KS`는 Yahoo fallback
 - `src/lib/data-sources/investor-flow-adapter.ts`
 - `src/lib/data-sources/sentiment-adapter.ts`
 - `src/lib/data-sources/fundamentals-adapter.ts`
@@ -123,6 +123,8 @@ API route:
 Vercel Cron, GitHub Actions, Supabase Scheduled Functions 중 하나로 `/api/collect`를 호출하면 됩니다. 수집 실패 시 이전 정상 데이터 유지와 실패 로그 저장을 DB 계층에 연결하면 됩니다.
 
 `vercel.json`에는 평일 한국 장 마감 이후에 맞춘 예시 Cron이 포함되어 있습니다.
+
+삼성전자/SK하이닉스 일봉은 GitHub Actions가 매일 한국시간 00:05에 `pykrx`를 설치해 Supabase에 저장합니다. 워크플로우는 `.github/workflows/collect-krx-prices.yml`에 있습니다.
 
 ## 데이터베이스
 
