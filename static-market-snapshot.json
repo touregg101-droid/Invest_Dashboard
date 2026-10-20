@@ -1,30 +1,30 @@
 {
   "source": "pykrx KRX OHLCV",
-  "updatedAt": "2026-10-20T05:35:37+09:00",
-  "updatedLabel": "2026.10.20 05:35",
+  "updatedAt": "2026-10-21T04:17:35+09:00",
+  "updatedLabel": "2026.10.21 04:17",
   "stocks": {
     "102110": {
       "name": "TIGER 200",
-      "date": "2026-10-19",
-      "close": 90235,
-      "changeRate": 1.32,
-      "volume": 18260386,
+      "date": "2026-10-20",
+      "close": 87135,
+      "changeRate": -3.44,
+      "volume": 14945162,
       "note": "커뮤니티 감정: 긍정 44%"
     },
     "005930": {
       "name": "삼성전자",
-      "date": "2026-10-19",
-      "close": 223500,
-      "changeRate": 3.0,
-      "volume": 17077532,
+      "date": "2026-10-20",
+      "close": 209000,
+      "changeRate": -6.49,
+      "volume": 15862063,
       "note": "감정: 긍정 62%"
     },
     "000660": {
       "name": "SK하이닉스",
-      "date": "2026-10-19",
-      "close": 1304000,
-      "changeRate": 3.08,
-      "volume": 3732953,
+      "date": "2026-10-20",
+      "close": 1190000,
+      "changeRate": -8.74,
+      "volume": 3464412,
       "note": "감정: 긍정 68%"
     }
   }
